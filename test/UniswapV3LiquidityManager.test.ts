@@ -4,13 +4,13 @@ import hre from 'hardhat'
 import { Contract } from "ethers"
 import { SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers"
 import { abi as uniswapV3PoolAbi } from "@uniswap/v3-core/artifacts/contracts/UniswapV3Pool.sol/UniswapV3Pool.json"
+import { UniswapV3LiquidityManager } from "../typechain-types"
 describe("UniswapV3LiquidityManager", function () {
-  let liquidityManager: any
   let uniswap: any
   let pool: any
   let token0: any
   let token1: any
-  let a: any
+  let liquidityManager: UniswapV3LiquidityManager
   let signer: SignerWithAddress;
   const tokenAmount = ethers.parseEther('1')
   const desiredWidth = 5000
@@ -63,8 +63,8 @@ describe("UniswapV3LiquidityManager", function () {
     const upperTick = positions[6]
 
     // Высчитываем граничные цены
-    const lowerSqrtPriceX96 = await pool.calculateSqrtPriceX96(lowerTick)
-    const upperSqrtPriceX96 = await pool.calculateSqrtPriceX96(upperTick)
+    const lowerSqrtPriceX96 = await liquidityManager.calculateSqrtPriceX96(lowerTick)
+    const upperSqrtPriceX96 = await liquidityManager.calculateSqrtPriceX96(upperTick)
     const lowerPrice = Math.floor((Number(lowerSqrtPriceX96) / (2**96)) ** 2)
     const upperPrice = Math.floor((Number(upperSqrtPriceX96) / (2**96)) ** 2)
 

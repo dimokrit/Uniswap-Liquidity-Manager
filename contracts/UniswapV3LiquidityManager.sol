@@ -61,7 +61,7 @@ contract UniswapV3LiquidityManager {
     }
 
 
-    function calculatePriceRange(uint160 sqrtPriceX96, uint desiredWidth) public pure returns (uint, uint) {
+    function calculatePriceRange(uint160 sqrtPriceX96, uint desiredWidth) internal pure returns (uint, uint) {
         uint middlePrice = uint((sqrtPriceX96 / 2**96) ** 2);
 
         uint lowerPrice = uint((middlePrice - ((middlePrice * desiredWidth)) / 10000));
@@ -69,12 +69,13 @@ contract UniswapV3LiquidityManager {
         return (lowerPrice, upperPrice);
     }
 
-    function calculateSqrtPriceX96(int24 tick) public pure returns (uint160) {
+
+    function calculateSqrtPriceX96(int24 tick) external pure returns (uint160) {
         uint160 sqrtPriceX96 = TickMath.getSqrtRatioAtTick(tick);
         return sqrtPriceX96;
     }
 
-    function sqrt(uint x) public pure returns (uint y) {
+    function sqrt(uint x) internal pure returns (uint y) {
         uint z = (x + 1) / 2;
         y = x;
         while (z < y) {
